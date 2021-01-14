@@ -13,6 +13,7 @@ namespace _100DaysOdCode_WinForms
 {
     public partial class frmProductos : Form
     {
+        model_productos mProducto = new model_productos();
         string rutaImagen = Directory.GetCurrentDirectory();
 
         public frmProductos()
@@ -21,6 +22,8 @@ namespace _100DaysOdCode_WinForms
 
             rutaImagen = rutaImagen.Replace("bin\\Debug","Productos");
             if (!Directory.Exists(rutaImagen)) Directory.CreateDirectory(rutaImagen);
+            dgvRegistros.DataSource = mProducto.BuscarProductos(new producto("","",0,0,""));
+            dgvRegistros.AutoGenerateColumns = false;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -28,15 +31,15 @@ namespace _100DaysOdCode_WinForms
             if (sonValidos())
             {
                 string nombreImagen = ofdSubirImagen.SafeFileName;
-                string[] datos = new string[]
-                {
-                txtCodigo.Text.Trim(),
+                producto oProducto = new producto(
+                    txtCodigo.Text.Trim(),
                 txtNombre.Text.Trim(),
-                txtCantidad.Text.Trim(),
-                txtPrecio.Text.Trim(),
+                Convert.ToInt32(txtCantidad.Text.Trim()),
+                Convert.ToDouble(txtPrecio.Text.Trim()),
                 nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen
-                };
-                dgvRegistros.Rows.Add(datos);
+                );
+
+                mProducto.AgregarProducto(oProducto);
 
                 if (nombreImagen != "NoDisponible")
                     pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
@@ -51,17 +54,22 @@ namespace _100DaysOdCode_WinForms
         {
             if (sonValidos())
             {
+                int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
                 string nombreImagen = ofdSubirImagen.SafeFileName;
 
-            dgvRegistros.Rows[id].Cells[0].Value = txtCodigo.Text.Trim();
-            dgvRegistros.Rows[id].Cells[1].Value = txtNombre.Text.Trim();
-            dgvRegistros.Rows[id].Cells[2].Value = txtCantidad.Text;
-            dgvRegistros.Rows[id].Cells[3].Value = txtPrecio.Text;
-            dgvRegistros.Rows[id].Cells[4].Value = nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen;
-
-            if (nombreImagen != "NoDisponible")
-                pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
-            limpiarForm();
+                producto oProducto = new producto(
+                         txtCodigo.Text.Trim(),
+                     txtNombre.Text.Trim(),
+                     Convert.ToInt32(txtCantidad.Text.Trim()),
+                     Convert.ToDouble(txtPrecio.Text.Trim()),
+                     nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen
+                     );
+                oProducto.id = idProducto;
+                mProducto.ModificarProducto(oProducto);
+                
+                if (nombreImagen != "NoDisponible")
+                    pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
+                limpiarForm();
             }
             else
             {
@@ -70,7 +78,9 @@ namespace _100DaysOdCode_WinForms
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            dgvRegistros.Rows.RemoveAt(id);
+            int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
+            mProducto.EliminarProducto(idProducto);
+
             string imagen = ofdSubirImagen.FileName;
             limpiarForm();
             File.Delete(imagen);
@@ -79,20 +89,16 @@ namespace _100DaysOdCode_WinForms
         {
             if (btnBuscar.Text == "Buscar")
             {
-                for (int i = 0; i < dgvRegistros.Rows.Count; i++)
-                {
-                    if (dgvRegistros.Rows[i].Cells[0].Value.ToString().Contains(txtCodigo.Text.Trim()) &&
-                        dgvRegistros.Rows[i].Cells[1].Value.ToString().Contains(txtNombre.Text.Trim()) &&
-                        dgvRegistros.Rows[i].Cells[2].Value.ToString().Contains(txtCantidad.Text.Trim()) &&
-                        dgvRegistros.Rows[i].Cells[3].Value.ToString().Contains(txtPrecio.Text.Trim()))
-                    {
-                        dgvRegistros.Rows[i].Visible = true;
-                    }
-                    else
-                    {
-                        dgvRegistros.Rows[i].Visible = false;
-                    }
-                }
+                string cantidad = txtCantidad.Text.Trim() != "" ? txtCantidad.Text.Trim() : "0";
+                string precio = txtPrecio.Text.Trim() != "" ? txtPrecio.Text.Trim() : "0";
+
+                producto oProducto = new producto(
+                         txtCodigo.Text.Trim(),
+                     txtNombre.Text.Trim(),
+                     Convert.ToInt32(cantidad),
+                     Convert.ToDouble(precio),
+                     "");
+                dgvRegistros.DataSource = mProducto.BuscarProductos(oProducto);
             }
             else
             {
@@ -123,11 +129,11 @@ namespace _100DaysOdCode_WinForms
 
             if(id > -1)
             {
-                txtCodigo.Text = dgvRegistros.Rows[id].Cells[0].Value.ToString();
-                txtNombre.Text = dgvRegistros.Rows[id].Cells[1].Value.ToString();
-                txtCantidad.Text = dgvRegistros.Rows[id].Cells[2].Value.ToString();
-                txtPrecio.Text = dgvRegistros.Rows[id].Cells[3].Value.ToString();
-                ofdSubirImagen.FileName = dgvRegistros.Rows[id].Cells[4].Value.ToString();
+                txtCodigo.Text = dgvRegistros.Rows[id].Cells[1].Value.ToString();
+                txtNombre.Text = dgvRegistros.Rows[id].Cells[2].Value.ToString();
+                txtCantidad.Text = dgvRegistros.Rows[id].Cells[3].Value.ToString();
+                txtPrecio.Text = dgvRegistros.Rows[id].Cells[4].Value.ToString();
+                ofdSubirImagen.FileName = dgvRegistros.Rows[id].Cells[5].Value.ToString();
 
                 if (ofdSubirImagen.FileName != "NoDisponible")
                 {
@@ -136,6 +142,9 @@ namespace _100DaysOdCode_WinForms
                 }
                 else
                 {
+                    if (pbxImagen.Image != null)
+                        pbxImagen.Image.Dispose();
+                    pbxImagen.Image = null;
                     lblNoDisponible.Visible = true;
                 }
 
@@ -148,13 +157,13 @@ namespace _100DaysOdCode_WinForms
 
         public bool sonValidos()
         {
-            return txtCodigo.Text.Trim() != "" &&
-                txtNombre.Text.Trim() != "" &&
+            return txtNombre.Text.Trim() != "" &&
                 txtCantidad.Text.Trim() != "" &&
                 txtPrecio.Text.Trim() != "";
         }
         public void limpiarForm()
         {
+            dgvRegistros.DataSource = mProducto.BuscarProductos(new producto("", "", 0, 0, ""));
             txtCodigo.Clear();
             txtNombre.Clear();
             txtCantidad.Clear();
