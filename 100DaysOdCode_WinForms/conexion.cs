@@ -13,10 +13,10 @@ namespace _100DaysOdCode_WinForms
 
         public SqlConnection EstablecerConexion()
         {
-            string user = "sa";
-            string bd = "BD_100DaysOfCode";
-            string pass = "Pa$$w0rd138*";
-            string server = "JARGS-PC";
+            string user = "TuUsuario";
+            string bd = "TuBasedeDatos";
+            string pass = "Contraseña";
+            string server = "SQLSERVER";
 
             string cs = "User ID= "+ user + "; Password="+pass+";Initial Catalog="+bd+";Server="+server+";";
 

@@ -48,7 +48,7 @@ namespace _100DaysOdCode_WinForms
             }
             else
             {
-                Mensaje.Show("Por favor, complete todos los campos.");
+                Mensaje.Show("Por favor, complete todos los campos.",0,2);
             }
         }
         private void btnModificar_Click(object sender, EventArgs e)
@@ -76,12 +76,12 @@ namespace _100DaysOdCode_WinForms
             }
             else
             {
-                Mensaje.Show("Por favor, complete todos los campos.");
+                Mensaje.Show("Por favor, complete todos los campos.",0,2);
             }
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = Mensaje.Show("¿Desea eliminar el registro?",1);
+            DialogResult resultado = Mensaje.Show("¿Desea eliminar el registro?",1,2);
             if (resultado == DialogResult.OK)
             {
                 int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
@@ -191,7 +191,7 @@ namespace _100DaysOdCode_WinForms
 
         private void frmProductos_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult resultado = Mensaje.Show("¿Desea salir del programa?", 1);
+            DialogResult resultado = Mensaje.Show("¿Desea salir del programa?", 1, 1);
             if (resultado == DialogResult.No || resultado == DialogResult.Cancel)
             {
                 e.Cancel = true;
