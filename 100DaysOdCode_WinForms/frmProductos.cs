@@ -20,9 +20,9 @@ namespace _100DaysOdCode_WinForms
         {
             InitializeComponent();
 
-            rutaImagen = rutaImagen.Replace("bin\\Debug","Productos");
+            rutaImagen = rutaImagen.Replace("bin\\Debug", "Productos");
             if (!Directory.Exists(rutaImagen)) Directory.CreateDirectory(rutaImagen);
-            dgvRegistros.DataSource = mProducto.BuscarProductos(new producto("","",0,0,""));
+            dgvRegistros.DataSource = mProducto.BuscarProductos(new producto("", "", 0, 0, ""));
             dgvRegistros.AutoGenerateColumns = false;
         }
 
@@ -39,7 +39,8 @@ namespace _100DaysOdCode_WinForms
                 nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen
                 );
 
-                mProducto.AgregarProducto(oProducto);
+                if (mProducto.AgregarProducto(oProducto) < 1)
+                    Mensaje.Show("No se pudo guardar el producto.");
 
                 if (nombreImagen != "NoDisponible")
                     pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
@@ -47,7 +48,7 @@ namespace _100DaysOdCode_WinForms
             }
             else
             {
-                MessageBox.Show("Por favor, complete todos los campos.");
+                Mensaje.Show("Por favor, complete todos los campos.");
             }
         }
         private void btnModificar_Click(object sender, EventArgs e)
@@ -65,25 +66,34 @@ namespace _100DaysOdCode_WinForms
                      nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen
                      );
                 oProducto.id = idProducto;
-                mProducto.ModificarProducto(oProducto);
-                
+                if (mProducto.ModificarProducto(oProducto) < 1)
+                    Mensaje.Show("No se pudo modificar el producto.");
+
+
                 if (nombreImagen != "NoDisponible")
                     pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
                 limpiarForm();
             }
             else
             {
-                MessageBox.Show("Por favor, complete todos los campos.");
+                Mensaje.Show("Por favor, complete todos los campos.");
             }
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
-            mProducto.EliminarProducto(idProducto);
+            DialogResult resultado = Mensaje.Show("¿Desea eliminar el registro?",1);
+            if (resultado == DialogResult.OK)
+            {
+                int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
+                if (mProducto.EliminarProducto(idProducto) < 1)
+                    Mensaje.Show("No se pudo eliminar el producto.");
 
-            string imagen = ofdSubirImagen.FileName;
-            limpiarForm();
-            File.Delete(imagen);
+
+                string imagen = ofdSubirImagen.FileName;
+                limpiarForm();
+                File.Delete(imagen);
+            }
+
         }
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -179,5 +189,13 @@ namespace _100DaysOdCode_WinForms
             id = 0;
         }
 
+        private void frmProductos_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult resultado = Mensaje.Show("¿Desea salir del programa?", 1);
+            if (resultado == DialogResult.No || resultado == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
