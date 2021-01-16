@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gbxDatos = new System.Windows.Forms.GroupBox();
+            this.lblNoDisponible = new System.Windows.Forms.Label();
             this.pbxImagen = new System.Windows.Forms.PictureBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
@@ -47,13 +48,13 @@
             this.lblCodigo = new System.Windows.Forms.Label();
             this.gbxRegistros = new System.Windows.Forms.GroupBox();
             this.dgvRegistros = new System.Windows.Forms.DataGridView();
+            this.ofdSubirImagen = new System.Windows.Forms.OpenFileDialog();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ofdSubirImagen = new System.Windows.Forms.OpenFileDialog();
-            this.lblNoDisponible = new System.Windows.Forms.Label();
             this.gbxDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImagen)).BeginInit();
             this.gbxRegistros.SuspendLayout();
@@ -83,6 +84,18 @@
             this.gbxDatos.TabIndex = 0;
             this.gbxDatos.TabStop = false;
             this.gbxDatos.Text = "Datos";
+            // 
+            // lblNoDisponible
+            // 
+            this.lblNoDisponible.AutoSize = true;
+            this.lblNoDisponible.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoDisponible.Location = new System.Drawing.Point(34, 64);
+            this.lblNoDisponible.Name = "lblNoDisponible";
+            this.lblNoDisponible.Size = new System.Drawing.Size(91, 38);
+            this.lblNoDisponible.TabIndex = 11;
+            this.lblNoDisponible.Text = "No\r\nDisponible";
+            this.lblNoDisponible.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblNoDisponible.Visible = false;
             // 
             // pbxImagen
             // 
@@ -195,6 +208,7 @@
             // 
             // txtCodigo
             // 
+            this.txtCodigo.Enabled = false;
             this.txtCodigo.Location = new System.Drawing.Point(212, 19);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(104, 20);
@@ -224,16 +238,17 @@
             this.dgvRegistros.AllowUserToAddRows = false;
             this.dgvRegistros.AllowUserToDeleteRows = false;
             this.dgvRegistros.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRegistros.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvRegistros.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvRegistros.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRegistros.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column6,
             this.Column1,
             this.Column2,
             this.Column3,
@@ -242,65 +257,66 @@
             this.dgvRegistros.Location = new System.Drawing.Point(15, 22);
             this.dgvRegistros.Name = "dgvRegistros";
             this.dgvRegistros.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRegistros.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvRegistros.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvRegistros.RowHeadersVisible = false;
             this.dgvRegistros.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRegistros.Size = new System.Drawing.Size(267, 153);
             this.dgvRegistros.TabIndex = 0;
             this.dgvRegistros.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRegistros_CellMouseClick);
             // 
+            // ofdSubirImagen
+            // 
+            this.ofdSubirImagen.FileName = "NoDisponible";
+            // 
+            // Column6
+            // 
+            this.Column6.DataPropertyName = "id";
+            this.Column6.HeaderText = "ID";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Visible = false;
+            // 
             // Column1
             // 
+            this.Column1.DataPropertyName = "codigo";
             this.Column1.HeaderText = "Código";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
             // 
             // Column2
             // 
+            this.Column2.DataPropertyName = "nombre";
             this.Column2.HeaderText = "Nombre";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
             // 
             // Column3
             // 
+            this.Column3.DataPropertyName = "cantidad";
             this.Column3.HeaderText = "Cantidad";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
             // 
             // Column4
             // 
+            this.Column4.DataPropertyName = "precio";
             this.Column4.HeaderText = "Precio";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
             // 
             // Column5
             // 
+            this.Column5.DataPropertyName = "rutaImagen";
             this.Column5.HeaderText = "RutaImagen";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
-            // 
-            // ofdSubirImagen
-            // 
-            this.ofdSubirImagen.FileName = "NoDisponible";
-            // 
-            // lblNoDisponible
-            // 
-            this.lblNoDisponible.AutoSize = true;
-            this.lblNoDisponible.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNoDisponible.Location = new System.Drawing.Point(34, 64);
-            this.lblNoDisponible.Name = "lblNoDisponible";
-            this.lblNoDisponible.Size = new System.Drawing.Size(91, 38);
-            this.lblNoDisponible.TabIndex = 11;
-            this.lblNoDisponible.Text = "No\r\nDisponible";
-            this.lblNoDisponible.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lblNoDisponible.Visible = false;
             // 
             // frmProductos
             // 
@@ -340,13 +356,14 @@
         private System.Windows.Forms.DataGridView dgvRegistros;
         private System.Windows.Forms.PictureBox pbxImagen;
         private System.Windows.Forms.Button btnSubirImagen;
+        private System.Windows.Forms.OpenFileDialog ofdSubirImagen;
+        private System.Windows.Forms.Label lblNoDisponible;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.OpenFileDialog ofdSubirImagen;
-        private System.Windows.Forms.Label lblNoDisponible;
     }
 }
 
