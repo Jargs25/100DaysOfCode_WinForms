@@ -48,13 +48,13 @@
             this.lblCodigo = new System.Windows.Forms.Label();
             this.gbxRegistros = new System.Windows.Forms.GroupBox();
             this.dgvRegistros = new System.Windows.Forms.DataGridView();
-            this.ofdSubirImagen = new System.Windows.Forms.OpenFileDialog();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ofdSubirImagen = new System.Windows.Forms.OpenFileDialog();
             this.gbxDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImagen)).BeginInit();
             this.gbxRegistros.SuspendLayout();
@@ -271,10 +271,6 @@
             this.dgvRegistros.TabIndex = 0;
             this.dgvRegistros.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRegistros_CellMouseClick);
             // 
-            // ofdSubirImagen
-            // 
-            this.ofdSubirImagen.FileName = "NoDisponible";
-            // 
             // Column6
             // 
             this.Column6.DataPropertyName = "id";
@@ -318,6 +314,10 @@
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
             // 
+            // ofdSubirImagen
+            // 
+            this.ofdSubirImagen.FileName = "NoDisponible";
+            // 
             // frmProductos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -328,6 +328,7 @@
             this.Name = "frmProductos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CRUD Productos";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmProductos_FormClosing);
             this.gbxDatos.ResumeLayout(false);
             this.gbxDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImagen)).EndInit();
