@@ -24,7 +24,10 @@ namespace _100DaysOdCode_WinForms
         public static DialogResult Show(string mensaje)
         {
             Mensaje oMensaje = new Mensaje();
+            oMensaje.lblMensaje.Location = new Point(36, 18);
+            oMensaje.lblMensaje.Size = new Size(352, 80);
             oMensaje.lblMensaje.Text = mensaje;
+            oMensaje.pbxImagen.Visible = false;
             return oMensaje.ShowDialog();
         }
 

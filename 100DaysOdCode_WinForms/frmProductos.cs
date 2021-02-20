@@ -8,22 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using _100DaysOdCode_WinForms.WCFProductos;
 
 namespace _100DaysOdCode_WinForms
 {
     public partial class frmProductos : Form
     {
-        model_productos mProducto = new model_productos();
-        string rutaImagen = Directory.GetCurrentDirectory();
+        WCFProductoClient svcProducto = new WCFProductoClient();
 
         public frmProductos()
         {
             InitializeComponent();
 
-            rutaImagen = rutaImagen.Replace("bin\\Debug", "Productos");
-            if (!Directory.Exists(rutaImagen)) Directory.CreateDirectory(rutaImagen);
-            dgvRegistros.DataSource = mProducto.BuscarProductos(new producto("", "", 0, 0, ""));
             dgvRegistros.AutoGenerateColumns = false;
+            dgvRegistros.DataSource = svcProducto.BuscarProductos(GetProducto());
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -31,19 +29,17 @@ namespace _100DaysOdCode_WinForms
             if (sonValidos())
             {
                 string nombreImagen = ofdSubirImagen.SafeFileName;
-                producto oProducto = new producto(
-                    txtCodigo.Text.Trim(),
+
+                Producto oProducto = GetProducto(
                 txtNombre.Text.Trim(),
                 Convert.ToInt32(txtCantidad.Text.Trim()),
-                Convert.ToDouble(txtPrecio.Text.Trim()),
-                nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen
-                );
+                Convert.ToDouble(txtPrecio.Text.Trim()));
 
-                if (mProducto.AgregarProducto(oProducto) < 1)
-                    Mensaje.Show("No se pudo guardar el producto.");
+                oProducto.rutaImagen = nombreImagen;
+                oProducto.imagen = GetByteImage(pbxImagen.Image);
 
-                if (nombreImagen != "NoDisponible")
-                    pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
+                Mensaje.Show(svcProducto.AgregarProducto(oProducto));
+
                 limpiarForm();
             }
             else
@@ -58,20 +54,17 @@ namespace _100DaysOdCode_WinForms
                 int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
                 string nombreImagen = ofdSubirImagen.SafeFileName;
 
-                producto oProducto = new producto(
-                         txtCodigo.Text.Trim(),
-                     txtNombre.Text.Trim(),
-                     Convert.ToInt32(txtCantidad.Text.Trim()),
-                     Convert.ToDouble(txtPrecio.Text.Trim()),
-                     nombreImagen == "NoDisponible" ? nombreImagen : rutaImagen + "\\" + nombreImagen
-                     );
+                Producto oProducto = GetProducto(
+                txtNombre.Text.Trim(),
+                Convert.ToInt32(txtCantidad.Text.Trim()),
+                Convert.ToDouble(txtPrecio.Text.Trim()));
+
                 oProducto.id = idProducto;
-                if (mProducto.ModificarProducto(oProducto) < 1)
-                    Mensaje.Show("No se pudo modificar el producto.");
+                oProducto.rutaImagen = nombreImagen;
+                oProducto.imagen = GetByteImage(pbxImagen.Image);
 
+                Mensaje.Show(svcProducto.ModificarProducto(oProducto));
 
-                if (nombreImagen != "NoDisponible")
-                    pbxImagen.Image.Save(rutaImagen + "\\" + nombreImagen);
                 limpiarForm();
             }
             else
@@ -84,14 +77,13 @@ namespace _100DaysOdCode_WinForms
             DialogResult resultado = Mensaje.Show("¿Desea eliminar el registro?",1,2);
             if (resultado == DialogResult.OK)
             {
-                int idProducto = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
-                if (mProducto.EliminarProducto(idProducto) < 1)
-                    Mensaje.Show("No se pudo eliminar el producto.");
+                Producto oProducto = GetProducto();
+                oProducto.id = Convert.ToInt32(dgvRegistros.Rows[id].Cells[0].Value);
+                oProducto.rutaImagen = ofdSubirImagen.FileName;
 
+                Mensaje.Show(svcProducto.EliminarProducto(oProducto));
 
-                string imagen = ofdSubirImagen.FileName;
                 limpiarForm();
-                File.Delete(imagen);
             }
 
         }
@@ -102,13 +94,13 @@ namespace _100DaysOdCode_WinForms
                 string cantidad = txtCantidad.Text.Trim() != "" ? txtCantidad.Text.Trim() : "0";
                 string precio = txtPrecio.Text.Trim() != "" ? txtPrecio.Text.Trim() : "0";
 
-                producto oProducto = new producto(
-                         txtCodigo.Text.Trim(),
+                Producto oProducto = GetProducto(
                      txtNombre.Text.Trim(),
                      Convert.ToInt32(cantidad),
-                     Convert.ToDouble(precio),
-                     "");
-                dgvRegistros.DataSource = mProducto.BuscarProductos(oProducto);
+                     Convert.ToDouble(precio));
+                oProducto.codigo = txtCodigo.Text.Trim();
+
+                dgvRegistros.DataSource = svcProducto.BuscarProductos(oProducto);
             }
             else
             {
@@ -145,10 +137,11 @@ namespace _100DaysOdCode_WinForms
                 txtPrecio.Text = dgvRegistros.Rows[id].Cells[4].Value.ToString();
                 ofdSubirImagen.FileName = dgvRegistros.Rows[id].Cells[5].Value.ToString();
 
-                if (ofdSubirImagen.FileName != "NoDisponible")
+                if (ofdSubirImagen.FileName != "NoDisponible" && dgvRegistros.Rows[id].Cells[6].Value != null)
                 {
                     lblNoDisponible.Visible = false;
-                    pbxImagen.Image = Image.FromFile(ofdSubirImagen.FileName);
+                    MemoryStream ms = new MemoryStream((byte[])dgvRegistros.Rows[id].Cells[6].Value);
+                    pbxImagen.Image = Image.FromStream(ms);
                 }
                 else
                 {
@@ -158,11 +151,12 @@ namespace _100DaysOdCode_WinForms
                     lblNoDisponible.Visible = true;
                 }
 
+                txtCodigo.Enabled = false;
                 btnModificar.Enabled = true;
                 btnEliminar.Enabled = true;
+                btnBuscar.Text = "Limpiar";
+                btnAgregar.Enabled = false;
             }
-            btnBuscar.Text = "Limpiar";
-            btnAgregar.Enabled = false;
         }
 
         public bool sonValidos()
@@ -173,8 +167,9 @@ namespace _100DaysOdCode_WinForms
         }
         public void limpiarForm()
         {
-            dgvRegistros.DataSource = mProducto.BuscarProductos(new producto("", "", 0, 0, ""));
+            dgvRegistros.DataSource = svcProducto.BuscarProductos(new Producto());
             txtCodigo.Clear();
+            txtCodigo.Enabled = true;
             txtNombre.Clear();
             txtCantidad.Clear();
             txtPrecio.Clear();
@@ -196,6 +191,40 @@ namespace _100DaysOdCode_WinForms
             {
                 e.Cancel = true;
             }
+        }
+
+        private Producto GetProducto()
+        {
+            Producto oProducto = new Producto();
+            oProducto.id = 0;
+            oProducto.codigo = "";
+            oProducto.nombre = "";
+            oProducto.cantidad = 0;
+            oProducto.precio = 0;
+            oProducto.rutaImagen = "NoDisponible";
+
+            return oProducto;
+        }
+        private Producto GetProducto(string nombre, int cantidad, double precio)
+        {
+            Producto oProducto = new Producto();
+            oProducto.id = 0;
+            oProducto.codigo = "";
+            oProducto.nombre = nombre;
+            oProducto.cantidad = cantidad;
+            oProducto.precio = precio;
+            oProducto.rutaImagen = "NoDisponible";
+
+            return oProducto;
+        }
+        private byte[] GetByteImage(Image img)
+        {
+            byte[] imagen;
+
+            ImageConverter convertidor = new ImageConverter();
+            imagen = (byte[])convertidor.ConvertTo(img, typeof(byte[]));
+
+            return imagen;
         }
     }
 }

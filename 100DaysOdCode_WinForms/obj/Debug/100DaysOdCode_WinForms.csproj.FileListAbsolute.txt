@@ -8,3 +8,13 @@ C:\Users\JARGS\Documents\Visual Studio 2015\Projects\100DaysOfCode\100DaysOdCode
 C:\Users\JARGS\Documents\Visual Studio 2015\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\100DaysOdCode_WinForms.exe
 C:\Users\JARGS\Documents\Visual Studio 2015\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\100DaysOdCode_WinForms.pdb
 C:\Users\JARGS\Documents\Visual Studio 2015\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\_100DaysOdCode_WinForms.Mensaje.resources
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\bin\Debug\100DaysOdCode_WinForms.exe.config
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\bin\Debug\100DaysOdCode_WinForms.exe
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\bin\Debug\100DaysOdCode_WinForms.pdb
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\_100DaysOdCode_WinForms.frmProductos.resources
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\_100DaysOdCode_WinForms.Mensaje.resources
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\_100DaysOdCode_WinForms.Properties.Resources.resources
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\100DaysOdCode_WinForms.csproj.GenerateResource.Cache
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\100DaysOdCode_WinForms.exe
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\100DaysOdCode_WinForms.pdb
+E:\Projects\100DaysOfCode\100DaysOdCode_WinForms\100DaysOdCode_WinForms\obj\Debug\100DaysOdCode_WinForms.csprojResolveAssemblyReference.cache
